@@ -59,13 +59,8 @@ def init_spark_perms():
     """Set permissions on the things the spark process needs access to.
     """
 
-    # Note: We need to set the standard for what all of the
-    # file and directory permissions need to be here.
-
-    # Set spark ownership on the home, log, and work dir
     for directory in [SPARK_HOME, SPARK_LOG_DIR, SPARK_WORK_DIR]:
         chownr(str(directory), 'spark', 'spark', chowntopdir=True)
-
     # Open up the work dir 777 (do we need to  make it this open?)
     check_call(['chmod', '-R', '777', str(SPARK_WORK_DIR)])
 
