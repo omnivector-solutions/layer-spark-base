@@ -1,0 +1,11 @@
+includes: 
+- layer:basic
+- layer:status
+- layer:apt
+options:
+  apt:
+    packages:
+      - openjdk-8-jre-headless
+      - scala
+      - libsnappy-dev
+repo: "https://github.com/omnivector-solutions/layer-spark-base"

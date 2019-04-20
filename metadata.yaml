@@ -1,0 +1,18 @@
+name: spark-base
+series:
+  - bionic
+summary: Apache Spark charm base layer
+maintainers:
+  - Omnivector Solutions <admin@omnivector.solutions>
+description: |
+  Charm base layer for Apache Spark providing the spark tarball resource.
+tags:
+  - spark
+  - omnivector
+  - bigdata
+subordinate: false
+resources:
+  spark-tarball:
+    type: file
+    filename: spark.tgz
+    description: Spark tar package
