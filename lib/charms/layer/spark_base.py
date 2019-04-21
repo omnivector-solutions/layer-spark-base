@@ -56,17 +56,15 @@ def get_spark_version():
 
 
 def init_spark_perms():
-    """Set permissions on the things the spark process needs access to.
+    """Set permissions on the things spark needs access to.
     """
 
     for directory in [SPARK_HOME, SPARK_LOG_DIR, SPARK_WORK_DIR]:
         chownr(str(directory), 'spark', 'spark', chowntopdir=True)
-    # Open up the work dir 777 (do we need to  make it this open?)
-    check_call(['chmod', '-R', '777', str(SPARK_WORK_DIR)])
 
 
-def render_spark_init_config(ctxt=None):
-    """Render the spark initial config.
+def render_spark_env_sh(template, ctxt=None):
+    """Render spark-env.sh.
     """
 
     if ctxt:
@@ -76,5 +74,6 @@ def render_spark_init_config(ctxt=None):
 
     if SPARK_ENV_SH.exists():
         SPARK_ENV_SH.unlink()
-    render('spark-base-env.sh', str(SPARK_ENV_SH),
-           context=context, perms=0o755)
+
+    render(template, str(SPARK_ENV_SH), context=context,
+           owner='spark', group='spark', perms=0o755)

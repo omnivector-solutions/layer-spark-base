@@ -20,7 +20,7 @@ from charms.layer.spark_base import (
     get_spark_version,
     provision_spark_resource,
     init_spark_perms,
-    render_spark_init_config,
+    render_spark_env_sh,
 )
 
 
@@ -81,7 +81,7 @@ def provision_spark():
       'spark.resource.available')
 @when_not('spark.base.config.available')
 def render_spark_sane_config():
-    render_spark_init_config()
+    render_spark_env_sh(template='spark-base-env.sh')
     set_flag('spark.base.config.available')
 
 
