@@ -1,4 +1,5 @@
 from charms.reactive import (
+    hook,
     when,
     when_not,
     set_flag,
@@ -25,6 +26,16 @@ from charms.layer.spark_base import (
 
 
 KV = unitdata.kv()
+
+
+@hook('spark-work-storage-attached')
+def spark_work_storage_available_flag():
+    set_flag('spark.work.storage.available')
+
+
+@hook('spark-local-storage-attached')
+def spark_local_storage_available_flag():
+    set_flag('spark.local.storage.available')
 
 
 @when('apt.installed.scala',
@@ -85,7 +96,9 @@ def render_spark_sane_config():
     set_flag('spark.base.config.available')
 
 
-@when('spark.base.config.available')
+@when('spark.base.config.available',
+      'spark.local.storage.available',
+      'spark.work.storage.available')
 @when_not('spark.permissions.available')
 def apply_perms():
     init_spark_perms()

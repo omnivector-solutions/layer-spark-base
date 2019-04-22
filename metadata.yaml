@@ -11,6 +11,13 @@ tags:
   - omnivector
   - bigdata
 subordinate: false
+storage:
+  spark-local:
+    type: filesystem
+    location: /srv/spark_local
+  spark-work:
+    type: filesystem
+    location: /srv/spark_work
 resources:
   spark-tarball:
     type: file

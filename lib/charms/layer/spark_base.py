@@ -14,7 +14,8 @@ from charms.layer import status
 
 SPARK_HOME = Path('/opt/spark')
 SPARK_RELEASE = SPARK_HOME / 'RELEASE'
-SPARK_WORK_DIR = Path('/srv/spark/work')
+SPARK_WORK_DIR = Path('/srv/spark_work')
+SPARK_LOCAL_DIR = Path('/srv/spark_local')
 SPARK_LOG_DIR = Path('/var/log/spark')
 SPARK_DEFAULTS = SPARK_HOME / 'conf' / 'spark-defaults.conf'
 SPARK_ENV_SH = SPARK_HOME / 'conf' / 'spark-env.sh'
@@ -59,7 +60,8 @@ def init_spark_perms():
     """Set permissions on the things spark needs access to.
     """
 
-    for directory in [SPARK_HOME, SPARK_LOG_DIR, SPARK_WORK_DIR]:
+    for directory in [SPARK_HOME, SPARK_LOG_DIR, SPARK_WORK_DIR,
+                      SPARK_LOCAL_DIR]:
         chownr(str(directory), 'spark', 'spark', chowntopdir=True)
 
 
