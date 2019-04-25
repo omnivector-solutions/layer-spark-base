@@ -9,8 +9,6 @@ from charmhelpers.core.templating import render
 
 from charmhelpers.core.host import chownr
 
-from charms.layer import status
-
 
 SPARK_HOME = Path('/opt/spark')
 SPARK_RELEASE = SPARK_HOME / 'RELEASE'
@@ -29,8 +27,7 @@ def provision_spark_resource():
     spark_tarball = resource_get('spark-tarball')
 
     if not spark_tarball:
-        status.blocked("Could not find resource 'spark-tarball'")
-        return
+        return False
 
     if SPARK_HOME.exists():
         check_call(['rm', '-rf', str(SPARK_HOME)])
@@ -63,6 +60,9 @@ def init_spark_perms():
     for directory in [SPARK_HOME, SPARK_LOG_DIR, SPARK_WORK_DIR,
                       SPARK_LOCAL_DIR]:
         chownr(str(directory), 'spark', 'spark', chowntopdir=True)
+
+    # Open up the work dir 777 (do we need to  make it this open?)
+    check_call(['chmod', '-R', '777', str(SPARK_WORK_DIR)])
 
 
 def render_spark_env_sh(template, ctxt=None):
